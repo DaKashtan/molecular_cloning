@@ -72,7 +72,7 @@ part_vector_1, part_vector_2 = vector_sequence.split(good_site) #режем ве
 res1 = part_vector_1 + vst1 + part_vector_2 #вставляем туда вставку
 print(res1)
 
-### теперь вторая вставка
+### теперь вторая вставка - функция с праймерами и короче всё то же самое, только грамотно зациклить надо
 
 
 
