@@ -50,7 +50,7 @@ print(sites)
 good_sites= {}
 for i in sites:
     if i in vector_sequence:
-        if vector_sequence.count(i) <2:
+        if vector_sequence.count(i) == 1:
             good_sites[i] = vector_sequence.count(i)  #ищем все сайты с уникальным вхождением в вектор
 print(good_sites)
 good_sitesL = list(good_sites.keys())
@@ -72,5 +72,15 @@ for i in good_sitesL:
 ###### первая вставка = сайт рестрикции 1 + сама вставка + сайт рестрикции 2 + сайт рестрикции1
 vst1 = good_site + vstavki_sort[0] + good_sitesL[1] + good_site
 print(vst1)
+
+#### режем (вены)
+part_vector_1, part_vector_2 = vector_sequence.split(good_site) #режем вектор
+res1 = part_vector_1 + vst1 + part_vector_2 #вставляем туда вставку
+print(res1)
+
+### теперь вторая вставка - функция с праймерами и короче всё то же самое, только грамотно зациклить надо НО! с каждой
+#новой итерацией нужно проверять, нет ли сайта в предыдущей вставке
+
+
 
 
