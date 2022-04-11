@@ -56,31 +56,41 @@ print(good_sites)
 good_sitesL = list(good_sites.keys())
 good_site = good_sitesL[0] #берем первый из них
 
-###получаем праймеры к первой вставке ВОТ ЭТО СДЕЛАТЬ В ЦИКЛ ДЛЯ ВСЕХ ВСТАВОК (а лучше функцию написать)
 def primer(n):
     primers=[]
-    primersL = good_site[n] + vstavki_sort[n][0:21]
+    primersL = good_sitesL[n] + vstavki_sort[n][0:21]
     primers.append(primersL)
     primersRb = ''.join(reverse_complementary(vstavki_sort[n][-1:-16:-1]))
-    primersR = good_site[n] + good_sitesL[n+1] + primersRb #к обратному праймеру добавляем первый + второй сайты
+    primersR = good_sitesL[n] + good_sitesL[n+1] + primersRb #к обратному праймеру добавляем первый + второй сайты
     primers.append(primersR)
     return primers
-for i in good_sitesL:
-    print(primer(good_sitesL.index(i)))
+for i in vstavki_sort:
+    print(primer(vstavki_sort.index(i)))
 
 
 ###### первая вставка = сайт рестрикции 1 + сама вставка + сайт рестрикции 2 + сайт рестрикции1
 vst1 = good_site + vstavki_sort[0] + good_sitesL[1] + good_site
 print(vst1)
 
+def vstavka_form(n):
+    vstavka = good_sitesL[n] + vstavki_sort[n] + good_sitesL[n+1]
+    return vstavka
+
 #### режем (вены)
-part_vector_1, part_vector_2 = vector_sequence.split(good_site) #режем вектор
-res1 = part_vector_1 + vst1 + part_vector_2 #вставляем туда вставку
-print(res1)
+#part_vector_1, part_vector_2 = vector_sequence.split(good_site) #режем вектор
+#res1 = part_vector_1 + vst1 + part_vector_2 #вставляем туда вставку
+#print(res1)
 
 ### теперь вторая вставка - функция с праймерами и короче всё то же самое, только грамотно зациклить надо НО! с каждой
 #новой итерацией нужно проверять, нет ли сайта в предыдущей вставке
 
 
 
+
+#for v in vstavki_sort:
+    #vst_for_insertion = {}
+    #vst_for_insertion[vstavki_sort.index(v)] = primer(v)
+    #part_vector_1, part_vector_2 = vector_sequence.split(good_sitesL[n])
+    #res1 = part_vector_1 + vst_for_insertion[n] + part_vector_2
+print(vstavka_form(vstavki_sort[0]))
 
