@@ -65,7 +65,8 @@ def primer(n):
     primersR = good_site[n] + good_sitesL[n+1] + primersRb #к обратному праймеру добавляем первый + второй сайты
     primers.append(primersR)
     return primers
-
+for i in good_sitesL:
+    print(primer(good_sitesL.index(i)))
 
 
 ###### первая вставка = сайт рестрикции 1 + сама вставка + сайт рестрикции 2 + сайт рестрикции1
