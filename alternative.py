@@ -92,5 +92,5 @@ def vstavka_form(n):
     #vst_for_insertion[vstavki_sort.index(v)] = primer(v)
     #part_vector_1, part_vector_2 = vector_sequence.split(good_sitesL[n])
     #res1 = part_vector_1 + vst_for_insertion[n] + part_vector_2
-print(vstavka_form(vstavki_sort[0]))
+#print(vstavka_form(vstavki_sort[0]))
 
