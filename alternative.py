@@ -17,8 +17,8 @@ def reverse_complementary(a):
     comp = comp[-1::-1]
     return comp
 
-#vector = open(input("Задайте адрес к файлу с векторной последовательностью: "),'r') #последовательность вектора
-vector = open("C:/Users/yeba/Desktop/vector.fasta", 'r')
+vector = open(input("Задайте адрес к файлу с векторной последовательностью: "),'r') #последовательность вектора
+#vector = open("C:/Users/yeba/Desktop/vector.fasta", 'r')
 records = parse(vector, "fasta")
 for record in records:
     vector_sequence = record.seq
@@ -27,8 +27,8 @@ print(vector_sequence)
 
 
 vstavki = []
-#vst = open(input("Задайте адрес к файлу с вставками: "), 'r') #открываем файл со вставками
-vst = open("C:/Users/yeba/Desktop/vstavki.txt", 'r')
+vst = open(input("Задайте адрес к файлу с вставками: "), 'r') #открываем файл со вставками
+#vst = open("C:/Users/yeba/Desktop/vstavki.txt", 'r')
 vstavki = [i for i in vst.read().splitlines() if i]
 order = list(map(int, input('Введите порядок организации вставок в векторе: ').split()))
 count_order=1
@@ -42,8 +42,8 @@ print(vstavki_sort)
 
 
 #открываем файл с сайтами рестрикции
-#sites1 = open(input("Задайте адрес к файлу с сайтами рестрикции: "), 'r') ## правка
-sites1 = open("C:/Users/yeba/Desktop/resrtr.txt", 'r')
+sites1 = open(input("Задайте адрес к файлу с сайтами рестрикции: "), 'r') ## правка
+#sites1 = open("C:/Users/yeba/Desktop/resrtr.txt", 'r')
 sites = [i for i in sites1.read().splitlines() if i] #получаем список с сайтами
 print(sites)
 
@@ -59,10 +59,10 @@ good_site = good_sitesL[0] #берем первый из них
 ###получаем праймеры к первой вставке ВОТ ЭТО СДЕЛАТЬ В ЦИКЛ ДЛЯ ВСЕХ ВСТАВОК (а лучше функцию написать)
 def primer(n):
     primers=[]
-    primersL = good_site[n] + vstavki_sort[n][0:21]
+    primersL = good_sitesL[n] + vstavki_sort[n][0:21]
     primers.append(primersL)
     primersRb = ''.join(reverse_complementary(vstavki_sort[n][-1:-16:-1]))
-    primersR = good_site[n] + good_sitesL[n+1] + primersRb #к обратному праймеру добавляем первый + второй сайты
+    primersR = good_sitesL[n] + good_sitesL[n+1] + primersRb #к обратному праймеру добавляем первый + второй сайты
     primers.append(primersR)
     return primers
 for i in vstavki_sort:
