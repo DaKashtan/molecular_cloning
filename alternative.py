@@ -18,7 +18,7 @@ def reverse_complementary(a):
     return comp
 
 #vector = open(input("Задайте адрес к файлу с векторной последовательностью: "),'r') #последовательность вектора
-vector = open("C:/Users/yeba/Desktop/vector.fasta", 'r')
+vector = open("C:\Users\USER\Downloads\Telegram Desktop\ vector.fasta", 'r')
 records = parse(vector, "fasta")
 for record in records:
     vector_sequence = record.seq
@@ -28,7 +28,7 @@ print(vector_sequence)
 
 vstavki = []
 #vst = open(input("Задайте адрес к файлу с вставками: "), 'r') #открываем файл со вставками
-vst = open("C:/Users/yeba/Desktop/vstavki.txt", 'r')
+vst = open("C:\Users\USER\Downloads\Telegram Desktop\ vstavki.txt", 'r')
 vstavki = [i for i in vst.read().splitlines() if i]
 order = list(map(int, input('Введите порядок организации вставок в векторе: ').split()))
 count_order=1
@@ -43,7 +43,7 @@ print(vstavki_sort)
 
 #открываем файл с сайтами рестрикции
 #sites1 = open(input("Задайте адрес к файлу с сайтами рестрикции: "), 'r') ## правка
-sites1 = open("C:/Users/yeba/Desktop/resrtr.txt", 'r')
+sites1 = open("C:\Users\USER\Downloads\Telegram Desktop\ resrtr.txt", 'r')
 sites = [i for i in sites1.read().splitlines() if i] #получаем список с сайтами
 print(sites)
 
@@ -65,8 +65,8 @@ def primer(n):
     primersR = good_site[n] + good_sitesL[n+1] + primersRb #к обратному праймеру добавляем первый + второй сайты
     primers.append(primersR)
     return primers
-for i in good_sitesL:
-    print(primer(good_sitesL.index(i)))
+for i in vstavki_sort:
+    print(primer(vstavki_sort.index(i)))
 
 
 ###### первая вставка = сайт рестрикции 1 + сама вставка + сайт рестрикции 2 + сайт рестрикции1
