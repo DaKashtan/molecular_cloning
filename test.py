@@ -1,4 +1,3 @@
-КАПИБАРА!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
 from Bio.SeqIO import parse
 from Bio.SeqRecord import SeqRecord
 from Bio.Seq import Seq
@@ -15,7 +14,7 @@ print(vector_sequence)
 vstavki = []
 vst = open(input("Задайте адрес к файлу с вставками: "), 'r') #открываем файл со вставками
 vstavki = [i for i in vst.read().splitlines() if i]
-order = list(map(int,input('Введите порядок организации вставок в векторе: ').split()))
+order = list(map(int, input('Введите порядок организации вставок в векторе: ').split()))
 count_order=1
 numb_order=len(order)
 vstavki_sort=[]
@@ -56,7 +55,7 @@ while i!=numb_restr:
     site_restr=good_sites[ind_site] #Находим сайт рестрикции
     next_site=good_sites[sum_inclusions.index(min(sum_inclusions))]
     a, b = vector_sequence.split(site_restr,1)
-    result = a+site_restr+vstavki_sort[i]++site_restr + b #теперь берем сайт рестриции и добавляем вставку
+    result = a+site_restr+vstavki_sort[i]+site_restr + b #теперь берем сайт рестриции и добавляем вставку
     sum_inclusions.pop(ind_site)
     good_sites.pop(ind_site)
     i+=1
