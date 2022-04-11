@@ -56,11 +56,15 @@ print(good_sites)
 good_sitesL = list(good_sites.keys())
 good_site = good_sitesL[0] #берем первый из них
 
-###получаем праймеры к первой вставке ВОТ ЭТО СДЕЛАТЬ В ЦИКЛ ДЛЯ ВСЕХ ВСТАВОК
+###получаем праймеры к первой вставке ВОТ ЭТО СДЕЛАТЬ В ЦИКЛ ДЛЯ ВСЕХ ВСТАВОК (а лучше функцию написать)
 primers1L = good_site + vstavki_sort[0][0:21]
 primers1Rb = ''.join(reverse_complementary(vstavki_sort[0][-1:-16:-1]))
-primers1R = good_site + good_sitesL[1] + primers1Rb
+primers1R = good_site + good_sitesL[1] + primers1Rb #к обратному праймеру добавляем первый + второй сайты
 print(primers1L)
 print(primers1R)
 
-######
+###### первая вставка = сайт рестрикции 1 + сама вставка + сайт рестрикции 2 + сайт рестрикции1
+vst1 = good_site + vstavki_sort[0] + good_sitesL[1] + good_site
+print(vst1)
+
+
