@@ -26,38 +26,29 @@ print(vstavki_sort)
 
 
 #открываем файл с сайтами рестрикции
-sites1 = open(input("Задайте адрес к файлу с сайтами рестрикции: "), 'r') ## правка
-sites = [i for i in sites1.read().splitlines() if i] #получаем список с сайтами
+sites1 = open(input("Задайте адрес к файлу с сайтами рестрикции: "), 'r')
+sites = [i for i in sites1.read().splitlines() if i]
 print(sites)
 
-good_sites= []
+# Подбираем сайты рестрикции и сортируем в порядке включения в последовательность для организации вставок в необходимом порядке
+for i in sites:
+    count = 0
+    if i in vstavki:
+            sites.remove(i)  # удаляем из списка сайты, которые есть в вставках
+good_sites= {}
 for i in sites:
     if i in vector_sequence:
-        good_sites.append(i) #добавляем в список гуд_сайтс сайты, которые есть в векторе
-for i in good_sites:
-    count=0
-    while count!=len(vstavki):
-        if i in vstavki[count]:
-            good_sites.pop(count) #удаляем из списка сайты, которые есть в вставках
-        count+=1
-print(good_sites)
+        if vector_sequence.count(i) == 1:
+            good_sites[i] = vector_sequence.find(i)  #ищем все сайты с уникальным вхождением в вектор
 
-# Ищем количество включений  сайтов в вектор
-sum_inclusions=[]
-for i in good_sites:
-    inclusions=re.findall(i,  vector_sequence)
-    sum_inclusions.append(len(inclusions)) #Подсчет количества включений "хороших" сайтов
-    inclusions=[]
-numb_restr=len(vstavki)
+good_sitesL = sorted(good_sites,reverse=True)
+numb_restr=len(vstavki_sort)
 i=0
+result=vector_sequence
 while i!=numb_restr:
-    ind_site=sum_inclusions.index(min(sum_inclusions))
-    site_restr=good_sites[ind_site] #Находим сайт рестрикции
-    next_site=good_sites[sum_inclusions.index(min(sum_inclusions))]
-    a, b = vector_sequence.split(site_restr,1)
+    site_restr=good_sitesL[i]
+    a, b = result.split(site_restr,1)
     result = a+site_restr+vstavki_sort[i]+site_restr + b #теперь берем сайт рестриции и добавляем вставку
-    sum_inclusions.pop(ind_site)
-    good_sites.pop(ind_site)
     i+=1
 
 print(result)
