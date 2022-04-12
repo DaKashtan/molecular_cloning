@@ -108,6 +108,8 @@ else:
     for i in sites:
         if i not in vector_sequence:
             unic_sites.append(i)  #список сайтов, не встречающихся в векторе
+            if i in vstavki:
+                unic_sites.remove(i)
     print(unic_sites)
 
     numb_restr = len(vstavki_sort)
