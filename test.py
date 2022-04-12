@@ -18,13 +18,21 @@ def reverse_complementary(a):
     return comp
 
 #сюда функцию праймер для варианта 1
-
-def primer(n):
+def primer_1(n):
     primers=[]
     primersL = good_sitesL[n] + vstavki_sort[n][0:21]
     primers.append(primersL)
     primersRb = ''.join(reverse_complementary(vstavki_sort[n][-1:-16:-1]))
-    primersR = good_sitesL[n] + good_sitesL[n+1] + primersRb #к обратному праймеру добавляем первый + второй сайты
+    primersR = good_sitesL[n] + primersRb
+    primers.append(primersR)
+    return primers
+
+def primer_2(n):
+    primers=[]
+    primersL = unic_sites[n] + vstavki_sort[n][0:21]
+    primers.append(primersL)
+    primersRb = ''.join(reverse_complementary(vstavki_sort[n][-1:-16:-1]))
+    primersR = unic_sites[n] + unic_sites[n+1] + primersRb #к обратному праймеру добавляем первый + второй сайты
     primers.append(primersR)
     return primers
 
@@ -95,21 +103,21 @@ if MCS:
         result = a+site_restr+vstavki_sort[i]+site_restr + b #теперь берем сайт рестриции и добавляем вставку
         i+=1
     #здесь код с праймерами
+    primers_res = []
+    for i in vstavki_sort:
+        primers_res.append(primer_1(vstavki_sort.index(i)))
+        print(primer_1(vstavki_sort.index(i))) #списки праймеров для варианта 1 для каждой вставки
     print(result)
 
 #второй вариант
 else:
-    for i in vstavki_sort:
-        print(primer(vstavki_sort.index(i))) #списки праймеров для варианта 2 для каждой вставки
-
-
     ###### первая вставка = сайт рестрикции 1 + сама вставка + сайт рестрикции 2 + сайт рестрикции1
     unic_sites = []
     for i in sites:
         if i not in vector_sequence:
             unic_sites.append(i)  #список сайтов, не встречающихся в векторе
-            if i in vstavki:
-                unic_sites.remove(i)
+        if i in vstavki:
+            unic_sites.remove(i)
     print(unic_sites)
 
     numb_restr = len(vstavki_sort)
@@ -121,28 +129,38 @@ else:
         a, b = result.split(unic_sites[i],1)
         result = a+unic_sites[i]+vstavki_sort[i+1]+ unic_sites[i+1] + unic_sites[i] + b #теперь берем сайт рестриции и добавляем вставку с сайтами
         i+=1
-print(result)
+
+    primers_res = []
+    for i in vstavki_sort:
+        primers_res.append(primer_2(vstavki_sort.index(i)))
+        print(primer_2(vstavki_sort.index(i)))  # списки праймеров для варианта 2 для каждой вставки
+
+    unic_sites.insert(0, good_sitesL[0])
+    good_sitesL = unic_sites
+
+    print(result)
+
+#выходные данные
+new_file = input('Введите название нового файла: ')
+my_file = open(new_file, "w")
+print("Инструкция с последовательностью действий находится в указанном вами файле.")
+print(my_file.write("Шаг 1. Заказ праймеров."))
+for i in range(len(primers_res)):
+    print(my_file.write(f"Для вставки {i+1} закажите следующие праймеры: \nпрямой: {primers_res[i][0]}\nобратный: {primers_res[i][1]}"))
+    print(my_file.write('\n'))
+print(my_file.write(f"Поставьте ПЦР реакции вставок с соответствующими праймерами. Очистите продукты ПЦР."))
 
 
+for i in range(len(vstavki_sort)):
+    print(my_file.write(f"Шаг 2.{i+1} Порежьте вектор рестриктазой {good_sitesL[i]}\n."))
+    print(my_file.write(f"Порежьте вставку рестриктазой {good_sitesL[i]}\n."))
+    print(my_file.write(f"Очистите продукты рестрикции.\n"))
+    print(my_file.write(f"Проведите реакцию лигирования вектора и вставки.\n"))
+    print(my_file.write(f"Проверьте корректность встраивания вставки с помощью рестрикционного анализа.\n"))
+    print(my_file.write('\n'))
 
 
-# вывод манипуляций
-#new_file = input('Введите название нового файла ')
-#my_file = open(new_file, "w")
-#a='ddd'
-#print(my_file.write("Закажите праймер "+ a +'\n') ) #вставить переменную праймера
-#print(my_file.write("Возьмите рестриктазу " + a +'\n')) #вставить переменную из первого выхода цикла, который ищет сайты
-#print(my_file.write("Порежьте вектор рестриктазой " + a +'\n'))#вставить переменную из первого выхода цикла, который ищет сайты
-#print(my_file.write("Возьмите рестриктазу " + a +'\n') )
-#print(my_file.write('Возьмите порезанный вектор и вставку ' +a +'\n')) #переменная из части с праймерами.
-#print(my_file.write('Лигируйте ' + a +'\n'))
-#print(my_file.write('Проведите рестрикционный анализ.' + a +'\n'))
-#my_file.close()
-
-
+my_file.close()
 vector.close()
 vst.close()
 sites1.close()
-
-
-
