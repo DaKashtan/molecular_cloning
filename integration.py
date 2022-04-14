@@ -45,20 +45,42 @@ for record in records:
 vector_sequence=str(vector_sequence)
 print(vector_sequence)
 
-
-vstavki = []
-vst = open(input("Задайте адрес к файлу с вставками: "), 'r') #открываем файл со вставками
-vstavki = [i for i in vst.read().splitlines() if i]
+vst_format = input("Укажите формат документа со вставками (fasta/txt): ")
+vst_numb = input("Укажите количество вставок для интеграции в вектор: ")
 order = list(map(int, input('Введите порядок организации вставок в векторе: ').split()))
-count_order=1
-numb_order=len(order)
-vstavki_sort=[]
-while count_order!=len(order)+1:
-    ind_order=order.index(count_order)
-    vstavki_sort.append(vstavki[ind_order])
-    count_order+=1
-print(vstavki_sort)
 
+if vst_format == 'fasta':
+    vstavki = []
+    for i in range(3):
+        vst = open(input("Задайте адрес к файлу со вставкой: "), 'r')
+        vst_seq = parse(vst, 'fasta')
+        for j in vst_seq:
+            vst1 = j.seq
+            v = str(vst1)
+        vstavki.append(v)
+        vst.close()
+    vstavki_sort = []
+    count_order = 1
+    numb_order = len(order)
+    while count_order != len(order) + 1:
+        ind_order = order.index(count_order)
+        vstavki_sort.append(vstavki[ind_order])
+        count_order += 1
+    print(vstavki_sort)
+
+elif vst_format == 'txt':
+    vstavki = []
+    vst = open(input("Задайте адрес к файлу с вставками: "), 'r') #открываем файл со вставками
+    vstavki = [i for i in vst.read().splitlines() if i]
+    count_order=1
+    numb_order=len(order)
+    vstavki_sort=[]
+    while count_order!=len(order)+1:
+        ind_order=order.index(count_order)
+        vstavki_sort.append(vstavki[ind_order])
+        count_order+=1
+    print(vstavki_sort)
+else: print('Некорректный формат')
 
 #открываем файл с сайтами рестрикции
 sites1 = open(input("Задайте адрес к файлу с сайтами рестрикции: "), 'r')
