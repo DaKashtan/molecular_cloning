@@ -39,7 +39,7 @@ def clicked():
                                 my_file.write('\n')
                             bar['value'] = 100
                             lbl.configure(text='Инструкция с последовательностью действий\n'
-                                               ' находится в указанном вами файле.')
+                                               ' находится в указанном вами файле.\n')
                             btn.configure(text='Закрыть', command=close)
                         lbl.configure(text='Обработка данных...')
                         bar=Progressbar(window,length=200)
@@ -204,7 +204,10 @@ def clicked():
                         lbl.configure(text='Файлы успешно сохранены!')
                         btn.configure(text='Отправить', command=work())
                     elif file3.endswith('.csv'):
-                        csv_read = csv.reader(open(file3, 'r'))
+                        sites1 = csv.reader(open(file3, 'r'))
+                        sites = [i for i in sites1.read().splitlines() if i]
+                        lbl.configure(text='Файлы успешно сохранены!')
+                        btn.configure(text='Отправить', command=work())
                     else:
                         error1 = mb.showerror("Ошибка", "Неверный формат файла")
                 file2 = filedialog.askopenfilename()
@@ -215,6 +218,31 @@ def clicked():
                     lbl.configure(text='Загрузите файл с сайтами рестрикции\n'
                                        ' в формате *.txt или *.csv: ')
                     btn.configure(text='Выбрать', command=rest_file)
+                elif file2.endswith('.scv'):
+                    vst = csv.reader(open(file3, 'r'))
+                    vstavki = [i for i in sites1.read().splitlines() if i]
+                    lbl.configure(text='Загрузите файл с сайтами рестрикции\n'
+                                       ' в формате *.txt или *.csv: ')
+                    btn.configure(text='Выбрать', command=rest_file)
+                elif file2.endswith('.fasta') or file2.endswith('.fa'):
+                    vstavki = []
+                    vst = open(file2, 'r')
+                    vst_seq = parse(vst, 'fasta')
+                    for j in vst_seq:
+                        vst1 = j.seq
+                        v = str(vst1)
+                        vstavki.append(v)
+                    for i in range(numb_order-1):
+                        file2 = filedialog.askopenfilename()
+                        vst = open(file2, 'r')
+                        vst_seq = parse(vst, 'fasta')
+                        for j in vst_seq:
+                            vst1 = j.seq
+                            v = str(vst1)
+                        vstavki.append(v)
+                        lbl.configure(text='Загрузите файл с сайтами рестрикции\n'
+                                           ' в формате *.txt или *.csv: ')
+                        btn.configure(text='Выбрать', command=rest_file)
                 else:
                     error1 = mb.showerror("Ошибка", "Неверный формат файла")
 
@@ -226,7 +254,10 @@ def clicked():
             order_entry.destroy()
             btn.configure(text='Выбрать', command=incl_file)
             lbl.configure(text='Загрузите файл с последовательностями\n'
-                                   'вставок в форматах:')
+                                   'вставок в форматах *.txt, *.fasta, *.csv.\n'
+                               'Если вы открываете формат *.fasta, то окно для\n'
+                               'загрузки файла будет открываться несколько раз,\n'
+                               'как указано в порядке организации вставок')
         file1 = filedialog.askopenfilename()
         if file1.endswith('.fasta'):
             vector = open(file1, 'r')  # последовательность вектора
