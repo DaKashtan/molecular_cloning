@@ -21,14 +21,13 @@ def clicked():
                             new_file= name_entry.get()
                             name_entry.destroy()
                             my_file = open(new_file, "w")
-                            print("Инструкция с последовательностью действий находится в указанном вами файле.")
-                            print(my_file.write("Шаг 1. Заказ праймеров. \n"))
+                            my_file.write("Шаг 1. Заказ праймеров. \n")
                             for i in range(len(primers_res)):
-                                print(my_file.write(
-                                    f"Для вставки {i + 1} закажите следующие праймеры: \nпрямой: {primers_res[i][0]}\nобратный: {primers_res[i][1]}"))
-                                print(my_file.write('\n'))
-                            print(my_file.write(
-                                f"\nПоставьте ПЦР реакции вставок с соответствующими праймерами. Очистите продукты ПЦР.\n"))
+                                my_file.write(
+                                    f"Для вставки {i + 1} закажите следующие праймеры: \nпрямой: {primers_res[i][0]}\nобратный: {primers_res[i][1]}")
+                                my_file.write('\n')
+                            my_file.write(
+                                f"\nПоставьте ПЦР реакции вставок с соответствующими праймерами. Очистите продукты ПЦР.\n")
 
                             for i in range(len(vstavki_sort)):
                                 my_file.write(f"Шаг 2.{i + 1} Порежьте вектор рестриктазой {ER_d[good_sitesL[i]]}.\n")
@@ -39,7 +38,8 @@ def clicked():
                                     f"Проверьте корректность встраивания вставки с помощью рестрикционного анализа.\n")
                                 my_file.write('\n')
                             bar['value'] = 100
-                            lbl.configure(text='Файл готов')
+                            lbl.configure(text='Инструкция с последовательностью действий\n'
+                                               ' находится в указанном вами файле.')
                             btn.configure(text='Закрыть', command=close)
                         lbl.configure(text='Обработка данных...')
                         bar=Progressbar(window,length=200)
@@ -116,11 +116,7 @@ def clicked():
                             ind_order = order.index(count_order)
                             vstavki_sort.append(vstavki[ind_order])
                             count_order += 1
-                        print(vstavki_sort)
-
                         # открываем файл с сайтами рестрикции
-
-                        print(sites)
                         bar['value'] =25
 
                             # Подбираем сайты рестрикции и сортируем в порядке включения в последовательность для организации вставок в необходимом порядке
@@ -136,13 +132,10 @@ def clicked():
                                         i)  # ищем все сайты с уникальным вхождением в вектор
 
                         good_sitesL = sorted(good_sites, reverse=True)
-                        print(good_sitesL)
-
                             # проверяем наличие участка множественного клонирования MCS
                         sites_distance = []
                         for i in good_sitesL:
                             sites_distance.append(vector_sequence.index(i))
-                        print(sites_distance)
 
                         MCS = True
                         for i in sorted(sites_distance):
@@ -152,7 +145,6 @@ def clicked():
                                 c += 1
                         if c < col:
                             MCS = False
-                        print(MCS)
 
                         if MCS:
                             numb_restr = len(vstavki_sort)
@@ -167,10 +159,7 @@ def clicked():
                             # здесь код с праймерами
                             primers_res = []
                             for i in vstavki_sort:
-                                primers_res.append(primer_1(vstavki_sort.index(i)))
-                                print(primer_1(vstavki_sort.index(i)))  # списки праймеров для варианта 1 для каждой вставки
-                            print(result)
-
+                                primers_res.append(primer_1(vstavki_sort.index(i)))# списки праймеров для варианта 1 для каждой вставки
                         # второй вариант
                         else:
                             ###### первая вставка = сайт рестрикции 1 + сама вставка + сайт рестрикции 2 + сайт рестрикции1
@@ -180,8 +169,6 @@ def clicked():
                                     unic_sites.append(i)  # список сайтов, не встречающихся в векторе
                                 if i in vstavki:
                                     unic_sites.remove(i)
-                            print(unic_sites)
-
                             numb_restr = len(vstavki_sort)
                             a, b = vector_sequence.split(good_sitesL[0], 1)
                             result = a + good_sitesL[0] + vstavki_sort[0] + unic_sites[0] + good_sitesL[
@@ -196,14 +183,10 @@ def clicked():
 
                             primers_res = []
                             for i in vstavki_sort:
-                                primers_res.append(primer_2(vstavki_sort.index(i)))
-                                print(primer_2(vstavki_sort.index(i)))  # списки праймеров для варианта 2 для каждой вставки
+                                primers_res.append(primer_2(vstavki_sort.index(i))) # списки праймеров для варианта 2 для каждой вставки
 
                             unic_sites.insert(0, good_sitesL[0])
                             good_sitesL = unic_sites
-
-                            print(result)
-
                         bar['value'] =75
                         lbl.configure(text='Введите названия файла,в котором\n'
                                            'будет сохранена инструкция.\n'
@@ -261,12 +244,9 @@ def clicked():
             error1=mb.showerror("Ошибка","Неверный формат файла")
     btn.configure(text='Выбрать', command=vector_file)
     btn.grid(column=0, row=2)
-    lbl.configure(text='Загрузите файл с векторной последовательностью\n'
+    lbl.configure(text='Загрузите файл с векторной последовательностью.\n'
                        'Обратите внимание, что необходимый формат файла\n'
                        '*.fasta')
-
-
-
 window=Tk()
 window.title("Стратегия молекулярного клонирования")
 window.geometry('400x300')
@@ -274,7 +254,7 @@ window.resizable(width=False,height=False)
 window['bg']='paleturquoise'
 lbl=Label(window, text="Добро пожаловать в программу по разработке\n"
                        "   стратегии молекулярного клонирования!\n"
-                       "Вам необходимо подготовить следующие данные\n"
+                       "Вам необходимо подготовить следующие данные:\n"
                        "векторная последовательность, последовательности\n"
                        "вставок и сайты рестрикции. В результате работы\n"
                        "вы получите файл с пошаговой инструкцией действии\n"
@@ -282,11 +262,4 @@ lbl=Label(window, text="Добро пожаловать в программу п
 lbl.grid(column=0,row=0)
 btn=Button(window,text="Дальше", bg='darkslategrey',fg='black', command=clicked)
 btn.grid(column=0,row=1)
-
-
-
-
-
-
-
 window.mainloop()
